@@ -10,6 +10,8 @@ import javax.validation.constraints.Positive;
 
 @RestController
 @Validated
+@RequestMapping("/")
+@CrossOrigin("https://todobackend.com")
 public class TodosController {
 
     private final TodosService todosService;
