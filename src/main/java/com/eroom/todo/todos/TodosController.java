@@ -1,5 +1,6 @@
 package com.eroom.todo.todos;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Positive;
 @Validated
 @RequestMapping("/")
 @CrossOrigin("https://todobackend.com")
+@Slf4j
 public class TodosController {
 
     private final TodosService todosService;
@@ -24,42 +26,59 @@ public class TodosController {
 
     @PostMapping
     public ResponseEntity postTodos(@Valid @RequestBody TodosDto.Post todosPostDto) {
+        log.info("postTodos 메서드 입니다");
+
         Todos todos = todosService.createTodos(mapper.todosPostDtoToTodos(todosPostDto));
 
-        return new ResponseEntity(todos, HttpStatus.CREATED);
+        return new ResponseEntity(mapper.todosToTodosResponseDto(todos), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity patchTodos(@Positive @PathVariable("id") long id,
                                      @Valid @RequestBody TodosDto.Patch todosPatchDto) {
+        log.info("patchTodos 메서드 입니다");
         todosPatchDto.setId(id);
 
         Todos todos = todosService.updateTodos(mapper.todosPatchDtoToTodos(todosPatchDto));
 
-        return new ResponseEntity<>(todos, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.todosToTodosResponseDto(todos), HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity patchAllCheck() {
+        log.info("patchAllCheck 메서드 입니다");
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getTodos(@Positive @PathVariable("id") long id) {
+        log.info("getTodos 메서드 입니다");
+
         Todos todos = todosService.findTodos(id);
-        return new ResponseEntity<>(todos, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.todosToTodosResponseDto(todos), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getTodosList() {
-        return new ResponseEntity(todosService.findTodosList(), HttpStatus.OK);
+        log.info("getTodosList 메서드 입니다");
+
+        return new ResponseEntity(mapper.todosListToTodosResponseList(todosService.findTodosList()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTodos(@Positive @PathVariable("id") long id) {
+        log.info("deleteTodos 메서드 입니다");
+
         todosService.deleteTodos(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
     public ResponseEntity deleteAll() {
+        log.info("deleteAll 메서드 입니다");
+
         todosService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

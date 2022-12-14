@@ -31,7 +31,7 @@ public class TodosService {
         Todos findTodos = findTodos(todos.getId());
 
         Optional.ofNullable(todos.getTitle()).ifPresent(data -> findTodos.setTitle(data));
-        Optional.ofNullable(todos.getTodo_order()).ifPresent(data -> findTodos.setTodo_order(data));
+        Optional.ofNullable(todos.getOrder()).ifPresent(data -> findTodos.setOrder(data));
         Optional.ofNullable(todos.getCompleted()).ifPresent(data -> findTodos.setCompleted(data));
 
         return todosRepository.save(findTodos);

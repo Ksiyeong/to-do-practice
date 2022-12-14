@@ -7,8 +7,8 @@ public class TodosDto {
     @Getter
     public static class Post {
         private String title;
-        private Long todo_order;
-        private Boolean completed;
+        private Long order;
+        private Boolean completed = false;
     }
 
     @Getter
@@ -16,8 +16,18 @@ public class TodosDto {
         @Setter
         private Long id;
         private String title;
-        private Long todo_order;
+        private Long order;
         private Boolean completed;
     }
 
+    @Getter
+    @Setter
+    public static class Response {
+        private Long id;
+        private String title;
+        private Long order;
+        private Boolean completed;
+
+        private String url;
+    }
 }

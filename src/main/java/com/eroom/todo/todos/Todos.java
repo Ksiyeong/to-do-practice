@@ -15,7 +15,8 @@ public class Todos {
 
     private String title;
 
-    private Long todo_order;
+    @Column(name = "todo_order")
+    private Long order;
 
     private Boolean completed;
 }
